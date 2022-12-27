@@ -21,15 +21,15 @@ app.MapGet("/api/Detail/{id}", (AssembliesDbContext db, string id) =>
 {
     using (db)
     {
-        Detail? ans = db.Details.Find(long.Parse(id));
-        // if (ans != null)
-        // {
-           return Results.Json(ans); 
-        //}
-        // else
-        // {
-        //     return Results.NotFound();
-        // }
+        Detail? ans = db.Details.Find(int.Parse(id));
+        if (ans != null)
+        {
+            return Results.Json(ans);
+        }
+        else
+        {
+            return Results.NotFound();
+        }
     }
 });
 
@@ -39,9 +39,9 @@ app.MapGet("/api/Details", (AssembliesDbContext db) =>
     {
         List<Detail> temp = new List<Detail>();
         temp = db.Details.ToList();
-        if (temp.Count!=0)
+        if (temp.Count != 0)
         {
-                   return Results.Json(temp);
+            return Results.Json(temp);
         }
         else
         {
@@ -54,10 +54,9 @@ app.MapPost("/api/Detail", (AssembliesDbContext db, Detail data) =>
 {
     using (db)
     {
-        Detail? dublicat = db.Details.FirstOrDefault(u=>u.Name==data.Name);
+        Detail? dublicat = db.Details.FirstOrDefault(u => u.Name == data.Name);
         if (dublicat == null)
         {
-
             db.Details.Add(data);
             db.SaveChanges();
             return Results.Ok();
@@ -80,7 +79,7 @@ app.MapPut("/api/Detail", (AssembliesDbContext db, Detail data) =>
         }
         else
         {
-            temp.Name=data.Name;
+            temp.Name = data.Name;
             temp.Quantity = data.Quantity;
             db.Details.Update(temp);
             db.SaveChanges();
@@ -98,7 +97,7 @@ app.MapDelete("/api/Detail/{id}", (AssembliesDbContext db, string id) =>
         {
             detail.State = EntityState.Deleted;
             db.SaveChanges();
-            return Results.Ok(); 
+            return Results.Ok();
         }
         else
         {
@@ -119,8 +118,9 @@ app.MapGet("/api/Assembly/{id}", (AssembliesDbContext db, string id) =>
             List<PartView> partViews = new List<PartView>();
             foreach (var VARIABLE in temp)
             {
-               db.Details.Where(u=>u.Id==VARIABLE.DetailId).Load(); 
+                db.Details.Where(u => u.Id == VARIABLE.DetailId).Load();
             }
+
             for (int i = 0; i < temp.Count; i++)
             {
                 PartView partView = new PartView()
@@ -135,11 +135,11 @@ app.MapGet("/api/Assembly/{id}", (AssembliesDbContext db, string id) =>
                 partViews.Add(partView);
             }
 
-            Assemblyview ans = new Assemblyview()
+            AssemblyView ans = new AssemblyView()
             {
                 id = assembly.Id,
-                name = assembly.Name, 
-                Parts = partViews
+                name = assembly.Name,
+                PartViews = partViews
             };
             return Results.Json(ans);
         }
@@ -160,9 +160,10 @@ app.MapGet("/api/Assemblies", (AssembliesDbContext db) =>
         {
             db.Parts.Load();
         }
-        if (data.Count!=0)
+
+        if (data.Count != 0)
         {
-            List<Assemblyview> ansdata = new List<Assemblyview>();
+            List<AssemblyView> ansdata = new List<AssemblyView>();
             foreach (var assembly in data)
             {
                 List<Part> temp = assembly.Parts.ToList();
@@ -181,14 +182,15 @@ app.MapGet("/api/Assemblies", (AssembliesDbContext db) =>
                     partViews.Add(partView);
                 }
 
-                Assemblyview ans = new Assemblyview()
+                AssemblyView ans = new AssemblyView()
                 {
                     id = assembly.Id,
-                    name = assembly.Name, 
-                    Parts = partViews
+                    name = assembly.Name,
+                    PartViews = partViews
                 };
                 ansdata.Add(ans);
             }
+
             return Results.Json(ansdata);
         }
         else
@@ -198,26 +200,28 @@ app.MapGet("/api/Assemblies", (AssembliesDbContext db) =>
     }
 });
 
-app.MapPost("api/Assembly", (AssembliesDbContext db, Assemblyview data) =>
+app.MapPost("api/Assembly", (AssembliesDbContext db, AssemblyView data) =>
 {
     using (db)
     {
-        Assembly? dublicat = db.Assemblies.FirstOrDefault(u=>u.Name==data.name);
+        Assembly? dublicat = db.Assemblies.FirstOrDefault(u => u.Name == data.name);
         if (dublicat == null)
         {
-            Assembly temp = new Assembly() {Id = data.id, Name = data.name};
+            Assembly temp = new Assembly() { Id = data.id, Name = data.name };
             db.Assemblies.Add(temp);
             db.SaveChangesAsync();
             List<Part> parttemp = new List<Part>();
-            foreach (var VARIABLE in data.Parts)
+            foreach (var VARIABLE in data.PartViews)
             {
                 Part part = new Part()
-                    {   Assembly = temp, 
-                        Quantity = VARIABLE.Quantity, 
-                        DetailName = VARIABLE.DetailName, 
-                        DetailId = VARIABLE.DetailId,
-                        Detail = VARIABLE.Detail
-                    };
+                {
+                    Assembly = temp,
+                    AssemblyId = temp.Id,
+                    Quantity = VARIABLE.Quantity,
+                    DetailName = VARIABLE.DetailName,
+                    DetailId = VARIABLE.DetailId,
+                    Detail = VARIABLE.Detail
+                };
                 parttemp.Add(part);
             }
 
@@ -225,7 +229,7 @@ app.MapPost("api/Assembly", (AssembliesDbContext db, Assemblyview data) =>
             db.Parts.AddRange(temp.Parts);
             db.Assemblies.Update(temp);
             //db.Assemblies.Add(temp);
-            //db.Parts.AddRange(temp.Parts);
+            //db.PartViews.AddRange(temp.PartViews);
             db.SaveChanges();
             return Results.Ok();
         }
@@ -236,7 +240,7 @@ app.MapPost("api/Assembly", (AssembliesDbContext db, Assemblyview data) =>
     }
 });
 
-app.MapPut("/api/Assembly", (AssembliesDbContext db, Assemblyview data) =>
+app.MapPut("/api/Assembly", (AssembliesDbContext db, AssemblyView data) =>
 {
     using (db)
     {
@@ -244,28 +248,28 @@ app.MapPut("/api/Assembly", (AssembliesDbContext db, Assemblyview data) =>
         assembly.Name = data.name;
         db.Parts.Where(u => u.AssemblyId == assembly.Id).Load();
         List<Part> oldparts = assembly.Parts.ToList();
-        //List<PartView> newparts = data.Parts.ToList();
+        //List<PartView> newparts = data.PartViews.ToList();
         List<Part> PartsToAdd = new List<Part>();
         List<Part> PartsToDelete = new List<Part>();
         List<Part> PartsToUpdate = new List<Part>();
-        for (int i = 0; i < data.Parts.Count; i++)
+        for (int i = 0; i < data.PartViews.Count; i++)
         {
-            if (oldparts.Exists(u => u.DetailName == data.Parts[i].DetailName))
+            if (oldparts.Exists(u => u.DetailName == data.PartViews[i].DetailName))
             {
-                Part PartOld = oldparts[oldparts.FindIndex(u => u.DetailName == data.Parts[i].DetailName)];
-                PartOld.Quantity = data.Parts[i].Quantity;
+                Part PartOld = oldparts[oldparts.FindIndex(u => u.DetailName == data.PartViews[i].DetailName)];
+                PartOld.Quantity = data.PartViews[i].Quantity;
                 PartsToUpdate.Add(PartOld);
             }
-            else if (!oldparts.Exists(u => u.DetailName == data.Parts[i].DetailName))
+            else if (!oldparts.Exists(u => u.DetailName == data.PartViews[i].DetailName))
             {
                 Part parttemp = new Part()
                 {
                     Assembly = assembly,
                     AssemblyId = assembly.Id,
-                    Detail = db.Details.FirstOrDefault(u=>u.Name==data.Parts[i].DetailName),
-                    DetailId = db.Details.FirstOrDefault(u=>u.Name==data.Parts[i].DetailName).Id,
-                    DetailName = data.Parts[i].DetailName,
-                    Quantity = data.Parts[i].Quantity
+                    Detail = db.Details.FirstOrDefault(u => u.Name == data.PartViews[i].DetailName),
+                    DetailId = db.Details.FirstOrDefault(u => u.Name == data.PartViews[i].DetailName).Id,
+                    DetailName = data.PartViews[i].DetailName,
+                    Quantity = data.PartViews[i].Quantity
                 };
                 PartsToAdd.Add(parttemp);
             }
@@ -273,24 +277,24 @@ app.MapPut("/api/Assembly", (AssembliesDbContext db, Assemblyview data) =>
 
         foreach (var VARIABLE in oldparts)
         {
-            if (!data.Parts.Exists(u=>u.DetailName==VARIABLE.DetailName))
+            if (!data.PartViews.Exists(u => u.DetailName == VARIABLE.DetailName))
             {
                 PartsToDelete.Add(VARIABLE);
             }
         }
 
-        if (PartsToUpdate.Count!=0)
+        if (PartsToUpdate.Count != 0)
         {
             oldparts = PartsToUpdate;
             db.Parts.UpdateRange(oldparts);
         }
-        
-        if (PartsToDelete.Count!=0)
+
+        if (PartsToDelete.Count != 0)
         {
             db.Parts.RemoveRange(PartsToDelete);
         }
 
-        if (PartsToAdd.Count!=0)
+        if (PartsToAdd.Count != 0)
         {
             db.Parts.AddRange(PartsToAdd);
         }
@@ -305,13 +309,13 @@ app.MapDelete("/api/Assembly/{id}", (AssembliesDbContext db, string id) =>
 {
     using (db)
     {
-        Assembly? assembly = db.Assemblies.FirstOrDefault(u=>u.Id==long.Parse(id));
-        db.Parts.Where(u=>u.AssemblyId==assembly.Id).Load();
+        Assembly? assembly = db.Assemblies.FirstOrDefault(u => u.Id == int.Parse(id));
+        db.Parts.Where(u => u.AssemblyId == assembly.Id).Load();
         if (assembly != null)
         {
             db.Assemblies.Remove(assembly);
             db.SaveChanges();
-            return Results.Ok(); 
+            return Results.Ok();
         }
         else
         {
@@ -322,11 +326,11 @@ app.MapDelete("/api/Assembly/{id}", (AssembliesDbContext db, string id) =>
 
 app.Run();
 
-public class Assemblyview
+public class AssemblyView
 {
     public string name { get; set; }
     public int id { get; set; }
-    public List<PartView> Parts { get; set; } = new List<PartView>();
+    public List<PartView> PartViews { get; set; } = new List<PartView>();
 }
 
 public class PartView
@@ -339,5 +343,5 @@ public class PartView
 
     public string DetailName { get; set; } = null!;
     public Detail Detail { get; set; } = null!;
-    public long Quantity { get; set; }
+    public int Quantity { get; set; }
 }

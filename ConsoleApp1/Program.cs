@@ -103,7 +103,7 @@ class Program
             
             PartView a = new PartView() {DetailName = "test1", DetailId = 1, Quantity = 5};
             PartView b = new PartView() {DetailName = "test2", DetailId = 2, Quantity = 5};
-            Assemblyview temp = new Assemblyview() {name = "test1", Parts = {a, b}};
+            AssemblyView temp = new AssemblyView() {name = "test1", PartViews = {a, b}};
             Task<HttpResponseMessage> request =  client.PostAsJsonAsync(
                 $"api/Assembly", temp);
             Task<Stream> stream1 = request.Result.Content.ReadAsStreamAsync();
@@ -119,7 +119,7 @@ class Program
             
             PartView a = new PartView() {DetailName = "test1", DetailId = 1, Quantity = 12};
             PartView b = new PartView() {DetailName = "test2", DetailId = 2, Quantity = 12};
-            Assemblyview temp = new Assemblyview() {name = "test1", Parts = {a, b}, id = 1};
+            AssemblyView temp = new AssemblyView() {name = "test1", PartViews = {a, b}, id = 1};
             Task<HttpResponseMessage> request =  client.PutAsJsonAsync(
                 $"api/Assembly", temp);
             Task<Stream> stream1 = request.Result.Content.ReadAsStreamAsync();
@@ -152,7 +152,7 @@ class Program
         //deleteassembly();
         //addassembly();
         //viewAssembly();
-        allassemblies();
+        // allassemblies();
         //changessembly();
     }
 }

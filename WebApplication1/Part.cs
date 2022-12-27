@@ -18,7 +18,7 @@ public partial class Part
     public string DetailName { get; set; } = null!;
     public virtual Detail Detail { get; set; } = null!;
 
-    public long Quantity { get; set; }
+    public int Quantity { get; set; }
     //[JsonIgnore] 
     public virtual Assembly Assembly { get; set; } = null!;
 }

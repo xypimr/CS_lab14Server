@@ -25,7 +25,8 @@ public partial class AssembliesDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlite("Data Source = /Users/marmelad/RiderProjects/lab12/WebApplication1/DataBase/AssembliesDB.db");
+        => optionsBuilder.UseSqlite(
+            "Data Source = /Users/oldmash/RiderProjects/labsC#/CS_lab14/WebApplication1/DataBase/AssembliesDB.db");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -37,7 +38,7 @@ public partial class AssembliesDbContext : DbContext
 
             entity.HasOne(d => d.Assembly).WithMany(p => p.Parts).HasForeignKey(d => d.AssemblyId);
 
-            //entity.HasOne(d => d.Detail).WithMany(p => p.Parts).HasForeignKey(d => d.DetailId);
+            //entity.HasOne(d => d.Detail).WithMany(p => p.PartViews).HasForeignKey(d => d.DetailId);
         });
 
         OnModelCreatingPartial(modelBuilder);

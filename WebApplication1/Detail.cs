@@ -11,7 +11,7 @@ public partial class Detail
 
     public string? Name { get; set; }
 
-    public long Quantity { get; set; }
+    public int Quantity { get; set; }
 
-    //public virtual ICollection<Part> Parts { get; } = new List<Part>();
+    //public virtual ICollection<Part> PartViews { get; } = new List<Part>();
 }

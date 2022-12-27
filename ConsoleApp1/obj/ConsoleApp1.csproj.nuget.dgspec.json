@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/Users/marmelad/RiderProjects/lab14_serv/ConsoleApp1/ConsoleApp1.csproj": {}
+    "/Users/oldmash/RiderProjects/labsC#/CS_lab14/ConsoleApp1/ConsoleApp1.csproj": {}
   },
   "projects": {
-    "/Users/marmelad/RiderProjects/lab14_serv/ConsoleApp1/ConsoleApp1.csproj": {
+    "/Users/oldmash/RiderProjects/labsC#/CS_lab14/ConsoleApp1/ConsoleApp1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/marmelad/RiderProjects/lab14_serv/ConsoleApp1/ConsoleApp1.csproj",
+        "projectUniqueName": "/Users/oldmash/RiderProjects/labsC#/CS_lab14/ConsoleApp1/ConsoleApp1.csproj",
         "projectName": "ConsoleApp1",
-        "projectPath": "/Users/marmelad/RiderProjects/lab14_serv/ConsoleApp1/ConsoleApp1.csproj",
-        "packagesPath": "/Users/marmelad/.nuget/packages/",
-        "outputPath": "/Users/marmelad/RiderProjects/lab14_serv/ConsoleApp1/obj/",
+        "projectPath": "/Users/oldmash/RiderProjects/labsC#/CS_lab14/ConsoleApp1/ConsoleApp1.csproj",
+        "packagesPath": "/Users/oldmash/.nuget/packages/",
+        "outputPath": "/Users/oldmash/RiderProjects/labsC#/CS_lab14/ConsoleApp1/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/marmelad/.nuget/NuGet/NuGet.Config"
+          "/Users/oldmash/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
@@ -26,8 +26,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "/Users/marmelad/RiderProjects/lab14_serv/WebApplication1/WebApplication1.csproj": {
-                "projectPath": "/Users/marmelad/RiderProjects/lab14_serv/WebApplication1/WebApplication1.csproj"
+              "/Users/oldmash/RiderProjects/labsC#/CS_lab14/WebApplication1/WebApplication1.csproj": {
+                "projectPath": "/Users/oldmash/RiderProjects/labsC#/CS_lab14/WebApplication1/WebApplication1.csproj"
               }
             }
           }
@@ -42,10 +42,6 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
-            "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
-              "target": "Package",
-              "version": "[7.0.1, )"
-            },
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.2, )"
@@ -71,17 +67,17 @@
         }
       }
     },
-    "/Users/marmelad/RiderProjects/lab14_serv/WebApplication1/WebApplication1.csproj": {
+    "/Users/oldmash/RiderProjects/labsC#/CS_lab14/WebApplication1/WebApplication1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/marmelad/RiderProjects/lab14_serv/WebApplication1/WebApplication1.csproj",
+        "projectUniqueName": "/Users/oldmash/RiderProjects/labsC#/CS_lab14/WebApplication1/WebApplication1.csproj",
         "projectName": "WebApplication1",
-        "projectPath": "/Users/marmelad/RiderProjects/lab14_serv/WebApplication1/WebApplication1.csproj",
-        "packagesPath": "/Users/marmelad/.nuget/packages/",
-        "outputPath": "/Users/marmelad/RiderProjects/lab14_serv/WebApplication1/obj/",
+        "projectPath": "/Users/oldmash/RiderProjects/labsC#/CS_lab14/WebApplication1/WebApplication1.csproj",
+        "packagesPath": "/Users/oldmash/.nuget/packages/",
+        "outputPath": "/Users/oldmash/RiderProjects/labsC#/CS_lab14/WebApplication1/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/marmelad/.nuget/NuGet/NuGet.Config"
+          "/Users/oldmash/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
