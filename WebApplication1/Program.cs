@@ -238,7 +238,7 @@ app.MapPut("/api/Assembly", (AssembliesDbContext db, Assemblyview data) =>
         assembly.Name = data.name;
         db.Parts.Where(u => u.AssemblyId == assembly.Id).Load();
         List<Part> oldparts = assembly.Parts.ToList();
-        List<PartView> newparts = data.Parts.ToList();
+        //List<PartView> newparts = data.Parts.ToList();
         List<Part> PartsToAdd = new List<Part>();
         List<Part> PartsToDelete = new List<Part>();
         List<Part> PartsToUpdate = new List<Part>();
@@ -256,9 +256,10 @@ app.MapPut("/api/Assembly", (AssembliesDbContext db, Assemblyview data) =>
                 {
                     Assembly = assembly,
                     AssemblyId = assembly.Id,
-                    Detail = data.Parts[i].Detail,
-                    DetailId = data.Parts[i].DetailId,
-                    DetailName = data.Parts[i].DetailName
+                    Detail = db.Details.FirstOrDefault(u=>u.Name==data.Parts[i].DetailName),
+                    DetailId = db.Details.FirstOrDefault(u=>u.Name==data.Parts[i].DetailName).Id,
+                    DetailName = data.Parts[i].DetailName,
+                    Quantity = data.Parts[i].Quantity
                 };
                 PartsToAdd.Add(parttemp);
             }
@@ -285,7 +286,7 @@ app.MapPut("/api/Assembly", (AssembliesDbContext db, Assemblyview data) =>
 
         if (PartsToAdd.Count!=0)
         {
-            db.Add(PartsToAdd);
+            db.Parts.AddRange(PartsToAdd);
         }
 
         db.Assemblies.Update(assembly);
