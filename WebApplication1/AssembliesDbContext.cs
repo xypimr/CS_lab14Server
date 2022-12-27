@@ -8,11 +8,13 @@ public partial class AssembliesDbContext : DbContext
 {
     public AssembliesDbContext()
     {
+        Database.EnsureCreated();
     }
 
     public AssembliesDbContext(DbContextOptions<AssembliesDbContext> options)
         : base(options)
     {
+        Database.EnsureCreated();
     }
 
     public virtual DbSet<Assembly> Assemblies { get; set; }

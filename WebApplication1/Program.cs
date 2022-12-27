@@ -211,7 +211,9 @@ app.MapPost("api/Assembly", (AssembliesDbContext db, Assemblyview data) =>
                     {   Assembly = temp, 
                         Quantity = VARIABLE.Quantity, 
                         DetailName = VARIABLE.DetailName, 
-                        DetailId = VARIABLE.DetailId};
+                        DetailId = VARIABLE.DetailId,
+                        Detail = VARIABLE.Detail
+                    };
                 parttemp.Add(part);
             }
 
