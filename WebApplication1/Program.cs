@@ -117,6 +117,10 @@ app.MapGet("/api/Assembly/{id}", (AssembliesDbContext db, string id) =>
             db.Parts.Where(u => u.AssemblyId == assembly.Id).Load();
             List<Part> temp = assembly.Parts.ToList();
             List<PartView> partViews = new List<PartView>();
+            foreach (var VARIABLE in temp)
+            {
+               db.Details.Where(u=>u.Id==VARIABLE.DetailId).Load(); 
+            }
             for (int i = 0; i < temp.Count; i++)
             {
                 PartView partView = new PartView()
