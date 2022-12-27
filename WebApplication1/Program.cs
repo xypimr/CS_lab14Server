@@ -22,14 +22,14 @@ app.MapGet("/api/Detail/{id}", (AssembliesDbContext db, string id) =>
     using (db)
     {
         Detail? ans = db.Details.Find(long.Parse(id));
-        // if (ans != null)
-        // {
+        if (ans != null)
+        {
            return Results.Json(ans); 
-        //}
-        // else
-        // {
-        //     return Results.NotFound();
-        // }
+        }
+         else
+         {
+             return Results.NotFound();
+         }
     }
 });
 
@@ -82,6 +82,7 @@ app.MapPut("/api/Detail", (AssembliesDbContext db, Detail data) =>
         {
             temp.Name=data.Name;
             temp.Quantity = data.Quantity;
+            //temp.Description = data.Description
             db.Details.Update(temp);
             db.SaveChanges();
             return Results.Ok();
@@ -130,7 +131,7 @@ app.MapGet("/api/Assembly/{id}", (AssembliesDbContext db, string id) =>
                     Id = temp[i].Id,
                     Quantity = temp[i].Quantity,
                     DetailId = temp[i].DetailId,
-                    DetailName = temp[i].DetailName
+                    DetailName = temp[i].DetailName //удали если нет detailname
                 };
                 partViews.Add(partView);
             }
@@ -176,7 +177,7 @@ app.MapGet("/api/Assemblies", (AssembliesDbContext db) =>
                         Id = temp[i].Id,
                         Quantity = temp[i].Quantity,
                         DetailId = temp[i].DetailId,
-                        DetailName = temp[i].DetailName
+                        DetailName = temp[i].DetailName //удали если нет detailname
                     };
                     partViews.Add(partView);
                 }
@@ -214,7 +215,7 @@ app.MapPost("api/Assembly", (AssembliesDbContext db, Assemblyview data) =>
                 Part part = new Part()
                     {   Assembly = temp, 
                         Quantity = VARIABLE.Quantity, 
-                        DetailName = VARIABLE.DetailName, 
+                        DetailName = VARIABLE.DetailName, //удали если нет detailname
                         DetailId = VARIABLE.DetailId,
                         Detail = VARIABLE.Detail
                     };
@@ -264,7 +265,7 @@ app.MapPut("/api/Assembly", (AssembliesDbContext db, Assemblyview data) =>
                     AssemblyId = assembly.Id,
                     Detail = db.Details.FirstOrDefault(u=>u.Name==data.Parts[i].DetailName),
                     DetailId = db.Details.FirstOrDefault(u=>u.Name==data.Parts[i].DetailName).Id,
-                    DetailName = data.Parts[i].DetailName,
+                    DetailName = data.Parts[i].DetailName, //удали если нет detailname
                     Quantity = data.Parts[i].Quantity
                 };
                 PartsToAdd.Add(parttemp);
